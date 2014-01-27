@@ -18,13 +18,19 @@
     [super viewDidLoad];
     self.nominalCells = [NSMutableDictionary dictionaryWithCapacity:2];
     self.cellData = [NSMutableArray array];
-    for (int i = 0; i < 5; i++) {
+    for (int i = 0; i < 30; i++) {
         [self.cellData addObject:@{
                 @"identifier" : [@[@"simple_cell", @"image_cell"] objectAtIndex:arc4random_uniform(2)],
                 @"label_one" : [self generateString],
                 @"label_two" : [self generateString]
         }];
     }
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [self.nominalCells removeAllObjects];
+    [self.tableView reloadData];
 }
 
 - (NSString *)generateString {
@@ -52,6 +58,15 @@
     CGFloat height = [[self nominalCellForIdentifier:data[@"identifier"]].contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize].height + 1;
     NSLog(@"height:%f forRow: %i", height, indexPath.row);
     return height;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath {
+  return 100;
+}
+
+- (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView {
+    [self.nominalCells removeAllObjects];
+    return @[@"1",@"2"];
 }
 
 
